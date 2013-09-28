@@ -21,6 +21,61 @@ public class AstarAI : MonoBehaviour {
  
     //The waypoint we are currently moving towards
     private int currentWaypoint = 0;
+	
+	/*void Update ()
+    {
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            gameObject.renderer.material.color = Color.red;
+        }*/
+	
+	/* if (Input.GetButtonDown ("Fire1")) 
+        {
+        var mousePos = Input.mousePosition;
+	*/
+	
+	/*var particle : GameObject;
+
+function Update () {
+
+if (Input.GetButtonDown ("Fire1")) {
+
+// Construct a ray from the current mouse coordinates
+
+var ray : Ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+
+var hit : RaycastHit;
+
+if (Physics.Raycast (ray,hit)) {
+
+// Create a particle if hit
+
+Instantiate (particle, hit.point, transform.rotation);
+
+}
+
+}
+
+}*/
+	
+	void Update()
+	{
+		if(Input.GetMouseButton(0))
+        {
+		
+			
+			var ray = Camera.current.ScreenPointToRay (Input.mousePosition);
+		    RaycastHit hit;
+			
+			if(Physics.Raycast(ray,out hit))
+			{
+				targetPosition = hit.point;
+			}
+
+			
+          Start(); // gameObject.renderer.material.color = Color.red;
+        }
+	}
  
     public void Start () {
         seeker = GetComponent<Seeker>();
