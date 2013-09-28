@@ -1,1 +1,10 @@
-Library/metadata/
+#other stuff
+Library/
+Temp/
+*.pidb
+.DS_Store
+*.csproj
+*.pidb
+*.unityproj
+*.sln
+*.userprefs
