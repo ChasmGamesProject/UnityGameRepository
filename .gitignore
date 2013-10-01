@@ -1,4 +1,5 @@
 #other stuff
+<<<<<<< HEAD
 Library/
 Temp/
 *.pidb
@@ -8,3 +9,14 @@ Temp/
 *.unityproj
 *.sln
 *.userprefs
+=======
+Library
+Temp
+.pidb
+.DS_Store
+.csproj
+.pidb
+.unityproj
+.sln
+.userprefs
+>>>>>>> 1bdf115da69a53da698bc5985d1995c63e5370b9
