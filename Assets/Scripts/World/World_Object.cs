@@ -8,10 +8,7 @@ using System.Collections;
 
 public class World_Object : MonoBehaviour
 {
-	public int object_id = 0; // zero is default, it means unknown?
-	public bool collectable = false;
-	
-	//public GameObject _logic;
+	public int object_id = 0; // zero is default, it means unknown?	
 	
 	private Database db;
 	private InteractMode im;
@@ -26,23 +23,20 @@ public class World_Object : MonoBehaviour
 	{
 		mat = renderer.material;
 		
-		GameObject _logic = GameObject.Find ("_LOGIC");
+		db = GlobalVars.database;
+		im = GlobalVars.interact_mode;
 		
-		db = (Database)(_logic.GetComponent("Database"));
-		im = (InteractMode)(_logic.GetComponent("InteractMode"));
+		di = GlobalVars.dialogue_box;
 		
-		di = (DialogueBox)(GameObject.Find("Main Camera").GetComponent("DialogueBox"));
-		
-		if(collectable)
-			inv = (Inventory)(_logic.GetComponent("Inventory"));
-		else
-			inv = null;
+		inv = GlobalVars.inventory;
 	}
 	
 	void OnMouseEnter()
 	{
 		// start glowing
 		mat.SetColor ("_Emission", Color.green);
+		
+		// Should change cursor icon
 	}
 	
 	void OnMouseExit()
@@ -59,16 +53,14 @@ public class World_Object : MonoBehaviour
 			{
 				Base_Object o = db.GetObject(object_id);
 				di.SetText(o.name, o.desc);
-				//print(o.name + ": " + o.desc);
 			}
 			
 			if(im.GetMode() == InteractMode.iMode.MODE_USE)
 			{
 				Base_Object o = db.GetObject(object_id);
 				
-				if(collectable)
+				if(o.type == Object_Type.OBJ_COLLECT)
 				{
-					//print(o.name + " was added to inventory");
 					if(inv != null)
 						if(inv.Add(object_id))
 						{
@@ -79,7 +71,6 @@ public class World_Object : MonoBehaviour
 				else
 				{
 					di.SetText(o.name, db.GetPickUpFailMessage());
-					//print (db.GetPickUpFailMessage());
 				}
 			}
 		}
