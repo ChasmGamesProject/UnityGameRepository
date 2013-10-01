@@ -1,0 +1,7 @@
+{
+	name=Sally
+	bio=Annoying girl I hate
+	mood=50
+	sprite=sally/happy
+	sprite=sally/sad
+}

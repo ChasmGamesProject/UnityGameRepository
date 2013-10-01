@@ -27,7 +27,8 @@ public class MouseCursor : MonoBehaviour
 	}
 	
 	void OnGUI()
-	{		
+	{
+		GUI.depth = 1;
 		GUI.DrawTexture(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, cursor_x, cursor_y), cursorTextures[cursor_index]);
 	}
 }
