@@ -13,11 +13,29 @@ public class Inventory : MonoBehaviour
 	
 	private int[] slots;
 	
+	//private DrawInventory di;
+	
 	Inventory()
 	{
 		slots = new int[INVENTORY_SIZE];
 		for(int i = 0; i < INVENTORY_SIZE; i++)
 			slots[i] = -1;
+	}
+	
+	public void Awake()
+	{
+		GlobalVars.inventory = this;
+	}
+	
+	public void Start()
+	{
+		/*
+		GameObject camera = GameObject.Find ("Main Camera");
+		if(camera)
+			di = camera.GetComponent<DrawInventory>();
+		else
+			di = null;
+			*/
 	}
 	
 	public bool Add(int obj_id)
@@ -35,12 +53,14 @@ public class Inventory : MonoBehaviour
 		
 		if(slot_index == -1)
 		{
-			print("Inventory Full");
+			print("Inventory Full"); // Replace with proper ingame message, well assuming we want it possible...
+				// Thisll be bad if you get item via dialogue...
 			return false;
 		}
 		else
 		{
 			slots[slot_index] = obj_id;
+			//UpdateHUD();
 			return true;
 		}
 	}
@@ -64,7 +84,21 @@ public class Inventory : MonoBehaviour
 	public void Remove(int obj_id)
 	{
 		for(int i = 0; i < INVENTORY_SIZE; i++)
+		{
 			if(slots[i] == obj_id)
+			{
 				slots[i] = -1;
+				//UpdateHUD();
+				break;
+			}
+		}
 	}
+	
+	/*
+	private void UpdateHUD() // Tell the script that draws inventory to update its content
+	{
+		if(di)
+			di.UpdateDisplay();
+	}
+	*/
 }

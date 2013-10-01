@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿/// Class	MainGUI
+/// Desc	Displays the ingame GUI menus
+/// Author	Hamish Carrier
+/// Date	1/10/2013
+
+using UnityEngine;
 using System.Collections;
 
 public class MainGUI : MonoBehaviour
@@ -8,7 +13,7 @@ public class MainGUI : MonoBehaviour
 
     enum UITypes { MainGUI, InventoryGUI, MenuGUI, MenuOptionGUI };
 
-    UITypes CurrentUI = UITypes.MenuGUI;
+    UITypes CurrentUI = UITypes.MainGUI;
 
     private float vSliderValue = 0.0f;
     private Rect Icon50;
@@ -23,9 +28,11 @@ public class MainGUI : MonoBehaviour
 
     void Start()
     {
-        GameObject logic = GameObject.Find("_LOGIC");
-        inv = (Inventory)(logic.GetComponent("Inventory"));
-        db = (Database)(logic.GetComponent("Database"));
+        //GameObject logic = GameObject.Find("_LOGIC");
+        //inv = (Inventory)(logic.GetComponent("Inventory"));
+        //db = (Database)(logic.GetComponent("Database"));
+		inv = GlobalVars.inventory;
+		db = GlobalVars.database;
 
         Icon50 = new Rect(0, 0, 50, 50); // Create a default rectangle of 50x50 pixels, simply specify later where to locate it
         Icon45 = new Rect(0, 0, 45, 30); //Create a default rectangle of 45x30 pixels
@@ -37,6 +44,7 @@ public class MainGUI : MonoBehaviour
 
     void OnGUI()
     {
+		GUI.depth = 2;
         if (CurrentUI == UITypes.MainGUI)
         {
             Icon50.x = 25;
@@ -49,7 +57,8 @@ public class MainGUI : MonoBehaviour
             if (GUI.Button(Icon50, "Menu"))
             {
                 //Put code here to switch back to the menu view
-                CurrentUI = UITypes.MenuGUI;
+                Application.LoadLevel("menu");
+                //CurrentUI = UITypes.MenuGUI;
             }
             //If any other GUI options need to go on the main game overlay they go here
         }
@@ -72,6 +81,7 @@ public class MainGUI : MonoBehaviour
                 }
                 LabelInventoryScalable.x = (Screen.width / 14) * ((i % 5) + 1) * 2;
                 LabelInventoryScalable.y = (Screen.height / 14) * 3 * j -30;
+				//GUI.skin.label.alignment = TextAnchor.UpperCenter;
                 if (inv.GetObjectInSlot(i) == -1)
                 {
                     GUI.Label(LabelInventoryScalable, "Empty");
@@ -79,10 +89,15 @@ public class MainGUI : MonoBehaviour
                 else
                 {
                     GUI.Label(LabelInventoryScalable, db.GetObject(inv.GetObjectInSlot(i)).name);
-                }
-                IconInventoryScalable.x = (Screen.width / 14) * ((i % 5) + 1) * 2;
-                IconInventoryScalable.y = (Screen.height / 14) * 3 * j;
-                GUI.Box(IconInventoryScalable, Inventoryicon); //change later to fetch appropriate inventory icon
+				}
+				IconInventoryScalable.x = (Screen.width / 14) * ((i % 5) + 1) * 2;
+	            IconInventoryScalable.y = (Screen.height / 14) * 3 * j;
+	            GUI.Box(IconInventoryScalable, ""); //change later to fetch appropriate inventory icon
+				
+				// since you modify the Rect's x/y after that first loop, well you can sort this out
+					// JUST MAKE SURE SLOT ISNT EMPTY ELSE NULL TEXTURE
+				if(inv.GetObjectInSlot(i) != -1)
+					GUI.DrawTexture(IconInventoryScalable, ((Collectable)db.GetObject(inv.GetObjectInSlot(i))).icon);
             }
         }
         else if (CurrentUI == UITypes.MenuGUI)
@@ -98,7 +113,8 @@ public class MainGUI : MonoBehaviour
             if (GUI.Button(MenuButton, "Options"))
             {
                 //Put code here to switch to the menu options view
-                CurrentUI = UITypes.MenuOptionGUI;
+               
+                //CurrentUI = UITypes.MenuOptionGUI;
             }
             //Any additional menu options can be added in here
         }

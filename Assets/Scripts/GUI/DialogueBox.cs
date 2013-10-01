@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿/// Class	DialogueBox
+/// Desc	Displays description text
+/// Author	Cameron A. Gardner
+/// Date	19/09/2013
+
+using UnityEngine;
 using System.Collections;
 
 public class DialogueBox : MonoBehaviour
@@ -27,7 +32,12 @@ public class DialogueBox : MonoBehaviour
 	
 	GUIStyle guiText;
 	
-	void Start ()
+	public void Awake()
+	{
+		GlobalVars.dialogue_box = this;
+	}
+	
+	public void Start ()
 	{
 		/*
 		int box_buffer = 32; // gap between bottom of screen and box
@@ -45,7 +55,7 @@ public class DialogueBox : MonoBehaviour
 		*/
 		
 		
-		world_label = new Rect(0, 0, 256, 64);
+		world_label = new Rect(0, 0, 512, 128);
 		show_timeout = 0.0f;
 		show_timeout_max = 3.0f;
 		show_timeout_fade = 1.0f;
@@ -54,9 +64,10 @@ public class DialogueBox : MonoBehaviour
 		guiText = new GUIStyle();
 		guiText.fontSize = 26;
 		guiText.font = font_base;
+		guiText.wordWrap = true;
 	}
 	
-	void Update()
+	public void Update()
 	{
 		if(show_timeout > 0)
 		{
@@ -69,6 +80,12 @@ public class DialogueBox : MonoBehaviour
 		}
 	}
 	
+	public void Hide()
+	{
+		show_timeout = 0.0f;
+		show = false;
+	}
+	
 	public void SetText(string n, string d)
 	{
 		name = n;
@@ -76,7 +93,32 @@ public class DialogueBox : MonoBehaviour
 		
 		show = true;
 		
-		world_label.x = Input.mousePosition.x;
+		Vector2 size = guiText.CalcSize(new GUIContent(d));
+		
+		bool done = false;
+		
+		if(size.x < world_label.width)
+		{
+			if(Input.mousePosition.x + size.x > Screen.width)
+			{
+				world_label.x = Input.mousePosition.x - world_label.width;
+				guiText.alignment = TextAnchor.UpperRight;
+				done = true;
+			}
+		}
+		else if(Input.mousePosition.x + world_label.width > Screen.width)
+		{
+			world_label.x = Input.mousePosition.x - world_label.width;
+			guiText.alignment = TextAnchor.UpperRight;
+			done = true;
+		}
+		
+		if(!done)
+		{
+			world_label.x = Input.mousePosition.x;
+			guiText.alignment = TextAnchor.UpperLeft;
+		}
+		
 		world_label.y = Screen.height - Input.mousePosition.y;
 		show_timeout = show_timeout_max;
 	}
@@ -85,6 +127,7 @@ public class DialogueBox : MonoBehaviour
 	{
 		if(show)
 		{
+			GUI.depth = 2;
 			if(show_timeout < show_timeout_fade)
 				label_color.a = show_timeout;
 			label_color.r = label_color.g = label_color.b = 0.0f;

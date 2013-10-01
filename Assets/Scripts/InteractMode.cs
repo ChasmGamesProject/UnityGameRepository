@@ -13,6 +13,8 @@ public class InteractMode : MonoBehaviour
 		MODE_IDENTIFY = 0,
 		MODE_USE = 1
 		//MODE_DIALOGUE, /// BAD IDEA  right now///
+		//MODE_INVENTORY,
+		//MODE_PAUSE_MENU,
 		//MODE_PUZZLE
 	};
 	
@@ -22,11 +24,16 @@ public class InteractMode : MonoBehaviour
 	
 	private MouseCursor scr_mouse;
 	
-	void Start ()
+	public void Awake()
+	{
+		GlobalVars.interact_mode = this;
+	}
+	
+	public void Start ()
 	{
 		cur_mode = iMode.MODE_IDENTIFY;
 		
-		scr_mouse = (MouseCursor)(GameObject.Find("Main Camera").GetComponent("MouseCursor"));
+		scr_mouse = GameObject.Find("Main Camera").GetComponent<MouseCursor>();
 		
 		UpdateCursor();
 	}
