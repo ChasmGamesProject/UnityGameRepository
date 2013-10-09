@@ -73,6 +73,7 @@
      <None Include="Assets\AstarPathfindingProject\Plugins\JsonFx\License.txt" />
      <None Include="Assets\AstarPathfindingProject\Plugins\JsonFx\Readme.txt" />
      <None Include="Assets\fonts\Readme.txt" />
+     <None Include="Assets\AstarPathfindingProject\Pathfinders\w0tVR6ZB.txt" />
      <None Include="Assets\AstarPathfindingProject\link.xml" />
  <Reference Include="Ionic.Zip.Reduced">
  <HintPath>Assets\AstarPathfindingProject\Plugins\DotNetZip\Ionic.Zip.Reduced.dll</HintPath>

@@ -95,6 +95,7 @@
      <Compile Include="Assets\AstarPathfindingProject\Modifiers\SimpleSmoothModifier.cs" />
      <Compile Include="Assets\AstarPathfindingProject\Modifiers\StartEndModifier.cs" />
      <Compile Include="Assets\AstarPathfindingProject\Pathfinders\ABPath.cs" />
+     <Compile Include="Assets\AstarPathfindingProject\Pathfinders\XPath.cs" />
      <Compile Include="Assets\AstarPathfindingProject\Utilities\AstarChecksum.cs" />
      <Compile Include="Assets\AstarPathfindingProject\Utilities\AstarMemory.cs" />
      <Compile Include="Assets\AstarPathfindingProject\Utilities\AstarParallel.cs" />
@@ -106,6 +107,7 @@
      <Compile Include="Assets\AstarPathfindingProject\Utilities\SizeProfiler.cs" />
      <Compile Include="Assets\AstarPathfindingProject\Utilities\UnityReferenceHelper.cs" />
      <Compile Include="Assets\AstarPathfindingProject\changelog.cs" />
+     <Compile Include="Assets\MyPhysics.cs" />
      <Compile Include="Assets\Scripts\0_TESTING\LoadFile.cs" />
      <Compile Include="Assets\Scripts\Dialogue\CharacterData.cs" />
      <Compile Include="Assets\Scripts\Dialogue\DialogueManager.cs" />
@@ -129,6 +131,7 @@
      <Compile Include="Assets\Scripts\World\World_Door.cs" />
      <Compile Include="Assets\Scripts\World\World_Object.cs" />
      <Compile Include="Assets\Scripts\database\Database.cs" />
+     <Compile Include="Assets\StopRotate.cs" />
      <None Include="Assets\AstarPathfindingProject\Editor\EditorAssets\Materials\Navmesh2.shader" />
      <None Include="Assets\text\CharacterList.txt" />
      <None Include="Assets\AstarPathfindingProject\Plugins\DotNetZip\License.txt" />
@@ -147,6 +150,7 @@
      <None Include="Assets\AstarPathfindingProject\Plugins\JsonFx\License.txt" />
      <None Include="Assets\AstarPathfindingProject\Plugins\JsonFx\Readme.txt" />
      <None Include="Assets\fonts\Readme.txt" />
+     <None Include="Assets\AstarPathfindingProject\Pathfinders\w0tVR6ZB.txt" />
      <None Include="Assets\AstarPathfindingProject\link.xml" />
  <Reference Include="Ionic.Zip.Reduced">
  <HintPath>Assets\AstarPathfindingProject\Plugins\DotNetZip\Ionic.Zip.Reduced.dll</HintPath>

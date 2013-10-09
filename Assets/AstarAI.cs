@@ -9,7 +9,8 @@ public class AstarAI : MonoBehaviour {
     
     private Seeker seeker;
     private CharacterController controller;
-    public Vector3 Temp;
+ public Vector3 dir;
+	public Vector3 LastPos;
     //The calculated path
     public Path path;
     
@@ -21,42 +22,7 @@ public class AstarAI : MonoBehaviour {
  
     //The waypoint we are currently moving towards
     private int currentWaypoint = 0;
-	
-	/*void Update ()
-    {
-        if(Input.GetKeyDown(KeyCode.R))
-        {
-            gameObject.renderer.material.color = Color.red;
-        }*/
-	
-	/* if (Input.GetButtonDown ("Fire1")) 
-        {
-        var mousePos = Input.mousePosition;
-	*/
-	
-	/*var particle : GameObject;
-
-function Update () {
-
-if (Input.GetButtonDown ("Fire1")) {
-
-// Construct a ray from the current mouse coordinates
-
-var ray : Ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-
-var hit : RaycastHit;
-
-if (Physics.Raycast (ray,hit)) {
-
-// Create a particle if hit
-
-Instantiate (particle, hit.point, transform.rotation);
-
-}
-
-}
-
-}*/
+ 
 	
 	void Update()
 	{
@@ -70,14 +36,17 @@ Instantiate (particle, hit.point, transform.rotation);
 			if(Physics.Raycast(ray,out hit))
 			{
 				targetPosition = hit.point;
+				
 			}
 
 			targetPosition.y = 1.08f;
           Start(); // gameObject.renderer.material.color = Color.red;
         }
 	}
- 
+	
+	
     public void Start () {
+		LastPos = transform.position;
         seeker = GetComponent<Seeker>();
         controller = GetComponent<CharacterController>();
         
@@ -95,6 +64,7 @@ Instantiate (particle, hit.point, transform.rotation);
     }
  
     public void FixedUpdate () {
+		
         if (path == null) {
             //We have no path to move after yet
             return;
@@ -102,24 +72,26 @@ Instantiate (particle, hit.point, transform.rotation);
         
         if (currentWaypoint >= path.vectorPath.Count) {
             Debug.Log ("End Of Path Reached");
+			if((Vector3.Distance(LastPos,transform.position)>0.01)&&(Vector3.Distance(transform.position,targetPosition)>0.5))
+			{
+			dir = (targetPosition-transform.position).normalized;
+        	dir *= speed * Time.fixedDeltaTime;
+        	controller.SimpleMove (dir);
+			}
             return;
         }
         
         //Direction to the next waypoint
-		
-		Temp = path.vectorPath[currentWaypoint];
-		//Temp.y +=2.08f;
-        Vector3 dir = (Temp-transform.position).normalized;
+        dir = (path.vectorPath[currentWaypoint]-transform.position).normalized;
         dir *= speed * Time.fixedDeltaTime;
         controller.SimpleMove (dir);
-		//controller.
-		//transform.position = path.vectorPath[currentWaypoint];
-        
+       
         //Check if we are close enough to the next waypoint
         //If we are, proceed to follow the next waypoint
         if (Vector3.Distance (transform.position,path.vectorPath[currentWaypoint]) < nextWaypointDistance) {
             currentWaypoint++;
             return;
         }
+			LastPos = transform.position;
     }
-} 
+}
