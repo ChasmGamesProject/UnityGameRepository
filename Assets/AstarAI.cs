@@ -13,9 +13,9 @@ public class AstarAI : MonoBehaviour {
 	public Vector3 LastPos;
     //The calculated path
     public Path path;
-    
+    public Vector3 LastPath;
     //The AI's speed per second
-    public float speed = 1000;
+    public float speed = 0.1f;
     
     //The max distance from the AI to a waypoint for it to continue to the next waypoint
     public float nextWaypointDistance = 3;
@@ -23,7 +23,13 @@ public class AstarAI : MonoBehaviour {
     //The waypoint we are currently moving towards
     private int currentWaypoint = 0;
  
+	void Awake()
+	{
+		//GlobalVars.player_transform = gameObject.transform;
+		
+	}
 	
+	//Gets mouse click location and builds a a path to that location
 	void Update()
 	{
 		if(Input.GetMouseButton(0))
@@ -35,23 +41,30 @@ public class AstarAI : MonoBehaviour {
 			
 			if(Physics.Raycast(ray,out hit))
 			{
+				if((hit.point != LastPath)&&(hit.point.y==0))
+				{
+				
 				targetPosition = hit.point;
+				LastPath = targetPosition;
+				targetPosition.y = 1.08f;
+			    Start(); 
+				}
 				
 			}
 
-			targetPosition.y = 1.08f;
-          Start(); // gameObject.renderer.material.color = Color.red;
+			
         }
 	}
 	
 	
     public void Start () {
-		LastPos = transform.position;
+		LastPath.Set(0,0,0);
+		LastPos = gameObject.transform.position;
         seeker = GetComponent<Seeker>();
         controller = GetComponent<CharacterController>();
-        
-        //Start a new path to the targetPosition, return the result to the OnPathComplete function
         seeker.StartPath (transform.position,targetPosition, OnPathComplete);
+        //Start a new path to the targetPosition, return the result to the OnPathComplete function
+        
     }
     
     public void OnPathComplete (Path p) {
@@ -70,8 +83,9 @@ public class AstarAI : MonoBehaviour {
             return;
         }
         
+		//This function makes the object move the final distance to the target postion
         if (currentWaypoint >= path.vectorPath.Count) {
-            Debug.Log ("End Of Path Reached");
+            //Debug.Log ("End Of Path Reached");
 			if((Vector3.Distance(LastPos,transform.position)>0.01)&&(Vector3.Distance(transform.position,targetPosition)>0.5))
 			{
 			dir = (targetPosition-transform.position).normalized;
